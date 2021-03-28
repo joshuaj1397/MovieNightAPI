@@ -1,0 +1,32 @@
+{
+  "name": "movie-night",
+  "version": "1.0.0",
+  "description": "An API for organizing movie nights with some friends <3",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshuaj1397/MovieNightAPI.git"
+  },
+  "keywords": [
+    "movie",
+    "night",
+    "api",
+    "nodejs"
+  ],
+  "author": "Joshua Johnson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joshuaj1397/MovieNightAPI/issues"
+  },
+  "homepage": "https://github.com/joshuaj1397/MovieNightAPI#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.12.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
