@@ -1,28 +1,36 @@
+require('dotenv').config();
+
 const express = require("express"),
     app = express(),
     port = process.env.PORT || 3005;
-app.listen(port, () => {
- console.log("Movie Night API started on port " + port);
-});
 
 const bodyParser = require('body-parser');
-app.use(bodyParser);
+const mongoose = require('mongoose');
+const MovieNightModel = require('./api/models/user');
+const MovieModel = require('./api/models/movie');
 
-const MovieModel = mongoose.model('Movie', mySchema);
-const MovieNightModel = mongoose.model('MovieNight', mySchema);
+app.use(bodyParser.urlencoded({extended : true}));
+app.use(bodyParser.json());
+// app.listen(port, () => {
+//  console.log("Movie Night API started on port " + port);
+// });
+
+
+// const MovieModel = mongoose.model('Movie', MovieSchema);
+// const MovieNightModel = mongoose.model('MovieNight', MovieNightSchema);
 
 
 // Info of the movie night
-app.get('/info')
+// app.get('/info')
 
 // Status of the API
-app.get('/status')
+// app.get('/status')
 
 // CRUD Movie Night
-app.route('/movienights')
+// app.route('/movienights')
 
 // Make a call to the imdb api
-app.get('/movieinfo/:movieName')
+// app.get('/movieinfo/:movieName')
 
 // app.post('/create')
 // app.post('/join')
@@ -35,31 +43,66 @@ app.get('/movieinfo/:movieName')
 // app.post('/kick')
 // app.post('/ban')
 // app.post('/mod')
-
-movieRouter = express.Router()
-movieNightRouter = express.Router()
-
-// at this layer, we can add our logic to verify valid api call
-// ex. uses a session token, or has a certain payload property
+//
+movieRouter = express.Router();
+movieNightRouter = express.Router();
+//
+// // at this layer, we can add our logic to verify valid api call
+// // ex. uses a session token, or has a certain payload property
 movieRouter.use(function moviePrep (req, res, next) {
-  next()
+  next();
 });
 
 movieNightRouter.use(function movieNightPrep (req, res, next) {
-  next()
+  next();
 });
 
 
-movieRouter.get('/movie/:id', (req, res) =>{
-  MovieModel.findOne(req.params.id)
-});
-movieRouter.post('/movie', (req, res) =>{
-  MovieModel.save(req.body)
+app.get('/api/movies/:id', (req, res) =>{
+  try{
+    const query = MovieModel.findOne({_id: req.params.id});
+    query.then(doc => res.send(doc));
+    // return res.send(movie);
+  }
+  catch(err){
+    console.log(err);
+    res.status(400).send('movie not found');
+  }
 });
 
-movieNightRouter.get('/movie-night/:id', (req, res) =>{
-  MovieNightModel.findOne(req.params.id)
+app.post('/api/movies', (req, res) =>{
+  try{
+    // add new movie to movies
+    const query = MovieModel.findOneAndUpdate({_id: req.body.id}, req.body, {new: true, upsert: true});
+    query.then(doc => res.status(201).send(doc));
+    // add the movie to a movie night
+  }
+  catch(err){
+    console.log(err);
+    res.status(400).send('movie not created');
+  }
 });
-movieNightRouter.post('/movie-night', (req, res) =>{
-  MovieNightModel.save(req.body.)
+
+
+app.get('/api/movieNights/:id', (req, res) =>{
+  // find a movie night
+  movieNight = MovieNightModel.findOne(req.params.id);
+  return res.send({'movieNight': movieNight});
 });
+
+app.post('/api/movieNights', (req, res) =>{
+  //create a movie night
+  MovieNightModel.save(req.body.movieNight);
+  return res.send({'movieNight': req.body.movieNight});
+});
+
+module.exports = app;
+
+// movieNightRouter.post('/api/movieNights/:id', (req, res) =>{
+//   if (req.body.movie.hasOwnProperty(req.params.id)){
+//     // append the id as a field if it doesn't exist
+//     req.body.movie[id] = req.params.id;
+//   }
+//   //update a movie night
+//   MovieNightModel.save(req.body.movie);
+// });

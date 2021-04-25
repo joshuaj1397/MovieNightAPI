@@ -1,4 +1,3 @@
-'use strict';
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -18,7 +17,7 @@ const MovieNightSchema = new Schema({
   voting_info: {
     type: String
   },
-  bracket: [MovieSchema],
+  bracket: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
   status: {
     type: String,
     enum: ['nominating', 'voting', 'watching', 'ended'],

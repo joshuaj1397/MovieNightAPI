@@ -1,18 +1,15 @@
-'use strict';
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+// const UserSchema = require('./user')
 
 const MovieSchema = new Schema({
-  name: {
-    type: String,
+  imdb_link: {
+    type: String
   },
-  imdb_rating: {
-    type: Number
+  rotten_tomatoes_link: {
+    type: String
   },
-  rotten_tomatoes_rating: {
-    type: Number
-  },
-  votes: [UserSchema],
+  votes: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
 });
 
 module.exports = mongoose.model('Movie', MovieSchema);
