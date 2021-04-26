@@ -72,6 +72,10 @@ app.get('/api/movies/:id', (req, res) =>{
 
 app.post('/api/movies', (req, res) =>{
   try{
+    // Before adding the movie, search it in omdb and get some stats for seeding
+    const omdbResults = await fetch('http://www.omdbapi.com/?apikey=' + process.env.OMDB_API_KEY + '&t=' + req.body.name);
+    omdbResults = await omdbResults.json();
+    // TODO: Save ratings to movie model
     // add new movie to movies
     const query = MovieModel.findOneAndUpdate({_id: req.body.id}, req.body, {new: true, upsert: true});
     query.then(doc => res.status(201).send(doc));

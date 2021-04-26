@@ -3,11 +3,20 @@ const Schema = mongoose.Schema;
 // const UserSchema = require('./user')
 
 const MovieSchema = new Schema({
-  imdb_link: {
+  name: {
     type: String
   },
-  rotten_tomatoes_link: {
+  year: {
+    type: Number
+  },
+  metacritic_rating: {
     type: String
+  },
+  rotten_tomatoes_rating: {
+    type: String
+  },
+  imdb_rating: {
+    type: Number
   },
   votes: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
 });
