@@ -9,9 +9,13 @@ const mongoose = require('mongoose');
 const MovieNightModel = require('./api/models/user');
 const MovieModel = require('./api/models/movie');
 
+mongoose.connect(process.env.DB_URL,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true 
+});
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 // app.listen(port, () => {
 //  console.log("Movie Night API started on port " + port);
 // });
