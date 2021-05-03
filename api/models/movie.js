@@ -20,7 +20,7 @@ const MovieSchema = new Schema({
   votes: {
     // Keys are MovieNight ids
     type: Map,
-    of: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}]
+    of: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
   }
 });
 

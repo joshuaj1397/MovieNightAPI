@@ -9,9 +9,9 @@ const mongoose = require('mongoose');
 const MovieNightModel = require('./api/models/user');
 const MovieModel = require('./api/models/movie');
 
-mongoose.connect(process.env.DB_URL,{
-    useNewUrlParser: true,
-    useUnifiedTopology: true 
+mongoose.connect(process.env.DB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -75,7 +75,7 @@ app.get('/api/movies/:id', (req, res) => {
   }
 });
 
-app.post('/api/movies', (req, res) => {
+app.post('/api/movies', async (req, res) => {
   try {
     // Before adding the movie, search it in omdb and get some stats for seeding
     const omdbResults = await fetch('http://www.omdbapi.com/?apikey=' + process.env.OMDB_API_KEY + '&t=' + req.body.name);
